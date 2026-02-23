@@ -278,10 +278,8 @@ sessions
 > **Pro Tip:** By using the path <code>donottrust.id.vn:8443/<your_random_path></code>, Sliver automatically handles the URI routing through Nginx, ensuring your traffic is never dropped by the proxy's "Secret Path" filter.
 
 ---
+<img width="1900" height="108" alt="image" src="https://github.com/user-attachments/assets/b8644854-0e68-463c-8277-47fadf324bc9" />
 
-<p align="center">
-  <img src="success_callback.png" width="600px" alt="Successful C2 Callback">
-</p>
 
 <hr>
 <p align="center">
