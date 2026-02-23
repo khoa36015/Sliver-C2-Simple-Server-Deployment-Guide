@@ -12,9 +12,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white" />
-  <img src="https://img.shields.io/badge/Nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white" />
-  <img src="https://img.shields.io/badge/Sliver-C2-red?style=for-the-badge" />
+<img width="1600" height="91" alt="Code_Generated_Image" src="whoami.gif" />
 </p>
 
 <blockquote>
