@@ -1,4 +1,4 @@
-<h1 align="center">🌩️ Sliver C2 Simple Server Deployment Guide</h1>
+<h1 align="center">Sliver C2 Simple Server Deployment Guide</h1>
 
 <p align="center">
 <pre>
@@ -23,7 +23,7 @@
 
 ---
 
-## 🛠️ Minimum System Requirements
+## Minimum System Requirements
 Based on standard Red Team operations:
 
 * **Redirector**: At least **1 vCPU** and **1GB RAM**.
@@ -69,3 +69,29 @@ We implement a strict **Allow-by-Exception** policy. All "Allow" rules must have
 
 ```bash
 chmod 400 your-private-key.pem
+```
+<p><b>2. Establish SSH Connection</b></p>
+<p>Run the following command to access your Redirector instance:</p>
+
+```bash
+ssh -i <your-private-key.pem> <user>@<redirector-ip>
+```
+<h2>🚀 Phase 2: Environment Setup & SSL Configuration</h2>
+
+<p>Once connected, the first priority is to update the system and install the necessary dependencies for the reverse proxy and SSL management.</p>
+
+<p><b>1. Update System & Install Dependencies</b></p>
+<p>Run these commands to ensure your Redirector is up-to-date and equipped with Nginx and Certbot:</p>
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt-get install -y nginx certbot net-tools
+```
+<p><b>2. Provision SSL Certificate with Certbot</b></p>
+<p>Before proceeding, ensure your domain's <b>A Record</b> is already pointed to your Redirector's Public IP. We need to stop Nginx temporarily to allow Certbot to use port 80 for verification.</p>
+```bash 
+# Stop Nginx to free up port 80
+sudo systemctl stop nginx
+
+# Request a standalone SSL certificate
+sudo certbot certonly --register-unsafely-without-email -d [www.yourdomain.com](https://www.yourdomain.com)
+```
