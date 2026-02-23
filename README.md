@@ -164,7 +164,7 @@ sudo systemctl restart nginx
 
 ---
 
-<h2>🔍 Defensive Insight (SOC Perspective)</h2>
+<h2> Defensive Insight (SOC Perspective)</h2>
 
 <p>As a Red Teamer or future SOC Analyst, it is crucial to understand how this infrastructure is detected by defenders:</p>
 
