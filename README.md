@@ -76,7 +76,7 @@ chmod 400 your-private-key.pem
 ```bash
 ssh -i <your-private-key.pem> <user>@<redirector-ip>
 ```
-<h2>🚀 Phase 2: Environment Setup & SSL Configuration</h2>
+<h2> Phase 2: Environment Setup & SSL Configuration</h2>
 
 <p>Once connected, the first priority is to update the system and install the necessary dependencies for the reverse proxy and SSL management.</p>
 
@@ -109,7 +109,7 @@ sudo certbot certonly --standalone --register-unsafely-without-email -d YOUR_DOM
 
 <p><b>3. Verification</b></p>
 <p>After successful execution, your certificates will be stored in <code>/etc/letsencrypt/live/YOUR_DOMAIN.COM/</code>. These will be used later to encrypt your C2 traffic via Nginx.</p>
-<h2>🛡️ Phase 3: Hardening the Redirector with Nginx</h2>
+<h2> Phase 3: Hardening the Redirector with Nginx</h2>
 
 <p>In this phase, we will configure Nginx to act as a stealthy reverse proxy. This ensures that the backend C2 server remains hidden, only responding to requests that hit a specific "Secret Path".</p>
 
