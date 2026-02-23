@@ -1,46 +1,71 @@
-# Sliver-C2-Simple-Server-Deployment-Guide
+<h1 align="center">🌩️ Sliver C2 Simple Server Deployment Guide</h1>
+
+<p align="center">
 <pre>
-██████  ██      ██ ██    ██ ███████ ██████  
- ██       ██      ██ ██    ██ ██      ██   ██ 
-  █████   ██      ██ ██    ██ █████   ██████  
-      ██  ██      ██  ██  ██  ██      ██   ██ 
- ██████   ███████ ██   ████   ███████ ██   ██ 
+ ██████  ██      ██ ██    ██ ███████ ██████  
+██       ██      ██ ██    ██ ██      ██   ██ 
+ █████   ██      ██ ██    ██ █████   ██████  
+     ██  ██      ██  ██  ██  ██      ██   ██ 
+██████   ███████ ██   ████   ███████ ██   ██ 
 </pre>
- >> Stealthy C2 Infrastructure on Azure <<
-As a Red Teamer, you must know how to build your own C2 infrastructure. If you're a newcomer, follow the guide below to get started."
-<p align="center">
-  <img src="whoami.gif" width="600px" alt="C2 Connection Demo">
+  <b><i>">> Stealthy C2 Infrastructure on Azure <<"</i></b>
 </p>
 
-**Minimum System Requirements**
-
-**Redirector**: At least 1 vCPU and 1GB RAM.
-
-**C2 Server**: At least 2 vCPUs and 2GB RAM.
-
-In this section, I will guide you through the provisioning and setup process.
-
-**Network Architecture & Security Posture**
 <p align="center">
-  <img src="diagram.png" width="600px" alt="C2 Diagram">
+  <img src="https://img.shields.io/badge/Azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white" />
+  <img src="https://img.shields.io/badge/Nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white" />
+  <img src="https://img.shields.io/badge/Sliver-C2-red?style=for-the-badge" />
 </p>
-The infrastructure is designed with a Tier-2 Stealth Model, ensuring the C2 backend remains completely invisible to the public internet.
 
-**1. Component Roles**
--Redirector (Nginx): The frontline edge node. It handles SSL termination and filters incoming traffic before proxying to the backend.
+<blockquote>
+  <b>"As a Red Teamer, you must know how to build your own C2 infrastructure. If you're a newcomer, follow the guide below to get started."</b>
+</blockquote>
 
--C2 Server (Sliver): The isolated "brain" of the operation. It resides in a private VNet with no Public IP, reachable only through the redirector.
-**2. Traffic Control & Firewall Rules**
-We implement a strict Allow-by-Exception policy using Network Security Groups (NSG):
-<img width="834" height="282" alt="image" src="https://github.com/user-attachments/assets/91b06a85-142d-4b46-894e-78a42001ab76" />
-<img width="957" height="237" alt="image" src="https://github.com/user-attachments/assets/565322e2-5446-4f76-b5cb-98ee0c28888e" />
-**3. Priority-Based Enforcement Logic**
-To ensure absolute isolation, we utilize a priority-tiering system for all network rules:
+---
 
-[!IMPORTANT]
+## 🛠️ Minimum System Requirements
+Based on standard Red Team operations:
 
-Specific Rules (Priority < 1000): All authorized traffic between the Redirector and C2 is assigned a high-priority value.
+* **Redirector**: At least **1 vCPU** and **1GB RAM**.
+* **C2 Server**: At least **2 vCPUs** and **2GB RAM**.
 
-Global Killswitch (Priority 1000): A catch-all Deny All rule is placed at the end of the stack to drop any unauthorized inbound or outbound traffic, effectively neutralizing internet access for the C2 backend.
+---
 
+## Network Architecture & Security Posture
 
+<p align="center">
+  <img src="diagram.png" width="650px" alt="C2 Network Diagram">
+</p>
+
+The infrastructure is designed with a **Tier-2 Stealth Model**, ensuring the C2 backend remains completely invisible to the public internet.
+
+### 1. Firewall Configuration (NSG Rules)
+We implement a strict **Allow-by-Exception** policy. All "Allow" rules must have a priority **under 1000**.
+
+#### **A. Redirector (Frontend)**
+| Direction | Port | Source | Action |
+| :--- | :--- | :--- | :--- |
+| Inbound | `80`, `443` | Anywhere | **Allow** |
+| Inbound | `22` | Admin Client IP | **Allow** |
+| Outbound | `8443` | C2 Private IP | **Allow** |
+
+#### **B. C2 Server (Isolated Backend)**
+| Direction | Port | Source | Action |
+| :--- | :--- | :--- | :--- |
+| Inbound | `80`, `443`, `8443`, `22` | Redir Private IP | **Allow** |
+| Outbound | `80`, `443`, `8443`, `22` | Redir Private IP | **Allow** |
+| **Any** | **Any** | **Anywhere** | **Deny (Priority 1000)** |
+
+---
+
+<h2> Phase 1: Accessing the Infrastructure</h2>
+
+<p>Securely connect to your Azure instances using the private key provided during provisioning.</p>
+
+> [!WARNING]
+> **Key Management:** Azure provides the private key only **once**. Keep it safe!
+
+<p><b>1. Set Secure Key Permissions</b></p>
+
+```bash
+chmod 400 your-private-key.pem
