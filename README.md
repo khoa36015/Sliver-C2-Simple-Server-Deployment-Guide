@@ -11,10 +11,11 @@ As a Red Teamer, you must know how to build your own C2 infrastructure. If you'r
 <p align="center">
   <img src="whoami.gif" width="600px" alt="C2 Connection Demo">
 </p>
-# Minimum System Requirements
 
-Redirector: At least 1 vCPU and 1GB RAM.
+**Minimum System Requirements**
 
-C2 Server: At least 2 vCPUs and 2GB RAM.
+**Redirector**: At least 1 vCPU and 1GB RAM.
+
+**C2 Server**: At least 2 vCPUs and 2GB RAM.
 
 In this section, I will guide you through the provisioning and setup process
