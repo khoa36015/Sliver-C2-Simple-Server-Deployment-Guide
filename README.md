@@ -287,3 +287,48 @@ sessions
 <p align="center">
   <i>Finalized by <b>Nguyen Dang Khoa</b> - SGU Cybersecurity Research</i>
 </p>
+---
+
+<h2> Troubleshooting Guide</h2>
+
+<p>If you encounter issues during deployment, check the following common scenarios based on this specific Azure/Sliver architecture:</p>
+
+### 1. SSH Connection Refused (Redirector)
+* **Symptoms:** `ssh: connect to host YOUR_IP port 22: Connection refused`.
+* **Solutions:**
+    * Verify that the **Inbound Port 22** rule in Azure NSG is allowed for your specific Public IP.
+    * Ensure the Redirector VM is actually running in the Azure Portal.
+
+### 2. Certbot "Challenge Failed"
+* **Symptoms:** Certbot cannot verify ownership of the domain.
+* **Solutions:**
+    * **DNS Propagation:** Ensure your domain's A-record is pointing to the Redirector's Public IP. Use `nslookup yourdomain.com` to verify.
+    * **Port 80 Conflict:** Ensure you ran `sudo systemctl stop nginx` before running Certbot. Certbot's standalone mode needs port 80 to be free.
+
+### 3. "502 Bad Gateway" on Port 8443
+* **Symptoms:** Navigating to `https://yourdomain.com:8443/` returns a 502 error.
+* **Solutions:**
+    * **Backend Status:** Ensure the Sliver C2 server is running and the listener is active on port 8443.
+    * **Internal Routing:** Check if the `proxy_pass` IP in `/etc/nginx/sites-available/default` matches the **Private IP** of the C2 server exactly.
+
+### 4. Implant/Beacon Fails to Connect (No Session)
+* **Symptoms:** The implant runs on the target but no session appears in the Sliver shell.
+* **Solutions:**
+    * **Path Mismatch:** Double-check that the `<your_random_path>` used during `generate` matches the `location` block in your Nginx config.
+    * **NSG Priority:** Ensure the "Allow" rule for port 8443 between the Redirector and C2 has a **lower priority number** (e.g., 100) than the "Deny All" rule (1000).
+    * **SSL Verification:** If using a self-signed certificate for the internal link, ensure `proxy_ssl_verify off;` is present in the Nginx config.
+
+### 5. Permission Denied (Private Key on Redirector)
+* **Symptoms:** `Permissions 0644 for 'c2-internal.pem' are too open`.
+* **Solutions:**
+    * You must restrict the key file on the Redirector:
+    
+```bash
+chmod 400 ~/c2-internal.pem
+```
+
+---
+
+<p align="center">
+  <i>Troubleshooting documentation by <b>Nguyen Dang Khoa</b> - SGU Information Technology</i>
+</p>
