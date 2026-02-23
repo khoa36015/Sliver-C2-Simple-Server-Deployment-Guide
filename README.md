@@ -28,7 +28,7 @@ Based on standard Red Team operations:
 
 * **Redirector**: At least **1 vCPU** and **1GB RAM**.
 * **C2 Server**: At least **2 vCPUs** and **2GB RAM**.
-
+* **Domain**: a simple domain**.
 ---
 
 ## Network Architecture & Security Posture
