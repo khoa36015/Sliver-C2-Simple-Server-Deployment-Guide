@@ -1,10 +1,11 @@
 # Sliver-C2-Simple-Server-Deployment-Guide
+<pre>
 ██████  ██      ██ ██    ██ ███████ ██████  
  ██       ██      ██ ██    ██ ██      ██   ██ 
   █████   ██      ██ ██    ██ █████   ██████  
       ██  ██      ██  ██  ██  ██      ██   ██ 
  ██████   ███████ ██   ████   ███████ ██   ██ 
-
+</pre>
  >> Stealthy C2 Infrastructure on Azure <<
 As a Red Teamer, you must know how to build your own C2 infrastructure. If you're a newcomer, follow the guide below to get started."
 # Minimum System Requirements
