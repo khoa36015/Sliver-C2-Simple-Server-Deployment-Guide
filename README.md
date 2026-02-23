@@ -9,7 +9,7 @@
  >> Stealthy C2 Infrastructure on Azure <<
 As a Red Teamer, you must know how to build your own C2 infrastructure. If you're a newcomer, follow the guide below to get started."
 <p align="center">
-  <img src="hello.gif" width="600px" alt="C2 Connection Demo">
+  <img src="whoami.gif" width="600px" alt="C2 Connection Demo">
 </p>
 # Minimum System Requirements
 
